@@ -312,7 +312,7 @@ server <- function(input, output) {
    
    #matchups 
    output$match <- renderTable({
-     match <- GetLastMatchups(input$Mteam1, input$Mteam2, input$Mnumber)
+     match <- GetLastMatchups.shiny(input$Mteam1, input$Mteam2, input$Mnumber)
      match
    })
    
