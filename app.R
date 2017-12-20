@@ -15,6 +15,7 @@ library(RCurl)
 library(htmltab)
 library(xml2)
 library(NBAStats)
+library(DT)
 
 options(shiny.sanitize.errors = FALSE)
 Glossary <- read.csv("glossary.csv")
@@ -108,7 +109,8 @@ ui <- fluidPage(
         conditionalPanel(condition="input.tabselected ==3",
           h3("Standings"),
           selectInput("sYear", "Select a year",
-                      choices = 2008:2018)
+                      choices = 2008:2018),
+          uiOutput("standingvar")
           ),
         
         conditionalPanel(condition="input.tabselected ==4",
@@ -227,7 +229,8 @@ ui <- fluidPage(
         conditionalPanel(condition="input.tabselected ==6",
                          h3("Betting"),
                          dateInput("Bdate", "Choose a date",
-                                   value="2017-11-02")
+                                   value="2017-11-02"),
+                         uiOutput("oddvar")
         )
         
         ),
@@ -237,14 +240,14 @@ ui <- fluidPage(
         tabsetPanel(
                     tabPanel("Team Schedule", 
                              value=1,
-                             dataTableOutput("tSchedule")),
+                             DT::dataTableOutput("tSchedule")),
                     tabPanel("Season Plot",
                              value=2,
                              plotOutput("season"),
                              plotOutput("usMap")),
                     tabPanel("Standings",
                              value=3,
-                             dataTableOutput("standings")),
+                             DT::dataTableOutput("standings")),
                     tabPanel("Playoff Plot",
                              value=4,
                              plotOutput("plot")),
@@ -253,7 +256,7 @@ ui <- fluidPage(
                              tableOutput("match")),
                     tabPanel("Betting",
                              value=6,
-                             tableOutput("odds")),
+                             DT::dataTableOutput("odds")),
                     id = "tabselected") #to be used with the conditional tabs 
       )
 ))
@@ -266,8 +269,28 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   #Betting Odds 
-   output$odds <- renderTable({
+   output$odds <- DT::renderDataTable({
      odds <- DailyOdds(input$Bdate)
+     DT::datatable(odds[, input$vars, drop = FALSE], options = list(scrollX = TRUE))
+   })
+   
+   #dynamic UI to display the check list of variables 
+   output$oddvar <- renderUI({
+     odds <- DailyOdds(input$Bdate)
+     checkboxGroupInput("vars", "Select columns to display", names(odds), selected = names(odds[, 1:8]))
+   })
+   
+   #standings
+   output$standings <- DT::renderDataTable({
+     standings <- webscrape_standings(input$sYear)
+     DT::datatable(standings[, input$standingvar, drop = FALSE], options = list(scrollX = TRUE))
+   })
+   
+   #similar dynamic UI for standings, dynamic so that 
+   #if we want to user to be able to call different tables in the future the variables will change accordingly 
+   output$standingvar <- renderUI({
+     standings <- webscrape_standings(input$sYear)
+     checkboxGroupInput("standingvar", "Select columns to display", names(standings), selected = names(standings[, 1:8])) #8 columns was the neatest 
    })
    
    #playoff plot 
@@ -282,13 +305,6 @@ server <- function(input, output) {
    })
 
    
-   
-   #standings
-   output$standings <- renderDataTable({
-     standings <- webscrape_standings(input$sYear)
-     standings
-   })
-   
    #second piece of playoff plot, game location  
    output$usMap <- renderPlot({
      schedule_map(input$SPmap)
@@ -301,8 +317,9 @@ server <- function(input, output) {
    })
    
    #team schedule 
-   output$tSchedule <- renderDataTable({
+   output$tSchedule <- DT::renderDataTable({
      team <- GetTeamSchedule.shiny(input$TSteam,input$TSyear)
+     DT::datatable(team)
    })
 }
 
