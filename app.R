@@ -7,15 +7,7 @@
 #    https://shiny.rstudio.com/
 #
 
-library(shiny)
-library(rvest)
-library(pipeR)
-library(XML)
-library(RCurl)
-library(htmltab)
-library(xml2)
 library(NBAStats)
-library(DT)
 
 options(shiny.sanitize.errors = FALSE)
 Glossary <- read.csv("glossary.csv")
