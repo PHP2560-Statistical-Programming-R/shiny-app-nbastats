@@ -1,7 +1,34 @@
-# Add description as well as the break down of work to be done by group. 
-##NBA Stats Package Discription
 
-NBA stats is a package that pulls live NBA statistics from the website https://www.basketball-reference.com/ from 2008 through 2018.
+#NBA Stats Description
+
+NBA stats is an app that pulls live NBA statistics from the website https://www.basketball-reference.com/ , and helps to analyze and visualize statistics from 2008 through 2018.
+
+####Author: David, Derrick, Michael, Teresa, Lisha
+
+
+####Target Audience: Basketball fans, and journalists  
+
+
+####Introduction and Usage:
+####First tab:
+The schedule for a team of selected season. Please select a team and a year.
+
+####Second tab:
+The second tab consist of two parts. 
+The first part includes the plots of important stats for all teams and league during the selected regular season. Please select a year and the stats you wanna see.
+The second part is a map which shows the cities that have games on selected date. Please select a date.
+
+####Third tab: 
+The standings for selected season. Please choose a year.
+
+####Fourth tab:
+The plots of important stats for all teams and league during the selected playoffs. Please select a year and the stats you wanna see.
+
+####Fifth tab: 
+Show the game history of two teams in the past 3 years. Please select two teams and the number of past games.
+
+####Sixth tab: 
+The betting odds on selected date. Please select a date.
 
 In addition to pulling team statistics directly off of the web, a number of fucntions have been added to pull from the live NBA statistics. 
 
