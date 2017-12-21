@@ -1,7 +1,7 @@
 
 #NBA Stats Description
 
-NBA stats is an app that pulls live NBA statistics from the website https://www.basketball-reference.com/ , and helps to analyze and visualize statistics from 2008 through 2018.
+NBA stats is an app that pulls live NBA statistics from the website https://www.basketball-reference.com/ , and helps to analyze and visualize statistics from 2008 through 2018. The betting odds are pulled from the website http://www.donbest.com/nba/odds/money-lines/.
 
 ####Author: David, Derrick, Michael, Teresa, Lisha
 
