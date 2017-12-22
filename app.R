@@ -20,6 +20,10 @@ ui <- fluidPage(
    # develop conditional panels & tabs, keeping track of tab ids 
    sidebarLayout(
       sidebarPanel(
+        conditionalPanel(condition="input.tabselected ==0",
+                         h3("Instructions"),
+                         helpText("Each tab serves to show case different functions from 'NBAstats.' Please feel free to explore the different tabs, some will output data tables, while others visualizes the data via plots."),
+                         helpText("Note: The data is pulled in real-time so it might take 20-30 seconds to load. You can switch between different tabs, it will not affect loading time.")),
         conditionalPanel(condition="input.tabselected ==1",
                          h3("Team Schedule"),
                          selectInput("TSteam",
@@ -229,7 +233,22 @@ ui <- fluidPage(
       
       # Show a plot of the generated distribution
       mainPanel(
-        tabsetPanel(
+        tabsetPanel(tabPanel("Welcome!",
+                             h3("Exploring the R package 'NBAstats'"),
+                             h5("Our package serves to retrieve NBA statistics from the Sports Reference website -- live. We hope that this will be a fun tool for NBA fans to explore and learn more about their favorite teams!"),
+                             h4("Team Schedule"),
+                             h5("Fans can browse their favorite team's game schedule from the last 10 years. Simply select a team and a corresponding year, and data table will be provided for easy browsing."),
+                             h4("Season Plot"),
+                             h5("By selecting a year and a statistic, you can see how each team did that season compared to each other and the league average. In addition, fans can input a date and see who is playing for that particular day and where."),
+                             h4("Standings"),
+                             h5("There is a surprisingly large amount of data collected with each season. Fans can use this to look at how each team did each season, by year. To allow the most flexibility, a data table is provided, and you can select which variables to show."),
+                             h4("Playoffs Plot"),
+                             h5("Similar to the season plot, this outputs a plot that allows fans to compare how each team did during the play offs of a particular year for a given statistic."),
+                             h4("Matchups"),
+                             h5("Review matchup statistics between any two teams. A data table will be created, and the number of matchups is customizable."),
+                             h4("Betting"),
+                             h5("Perhaps the most interesting tab, here fans can explore betting statistics for every match of any given date."),
+                             value=0),
                     tabPanel("Team Schedule", 
                              value=1,
                              DT::dataTableOutput("tSchedule")),
